@@ -1,0 +1,4 @@
+aiogram==3.0.0b3
+python-dotenv==0.20.0
+shazamio==0.3.0.0
+beautifulsoup4==4.11.1
