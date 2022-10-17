@@ -5,7 +5,7 @@ from aiogram.types import Message
 
 
 from config_reader import config
-from handlers import private_games, recognize_song, checkin
+from handlers import private_games, recognize_song, checkin, getw
 from middlewares.weekend import WeekendCallbackMiddleware
 
 logging.basicConfig(level=logging.INFO)
@@ -15,17 +15,16 @@ dp = Dispatcher()
 
 
 
-@dp.message(commands=['start'])
+@dp.message(commands=['help'])
 async def init_bot(message: Message):
-    await message.answer("Привет, отправь мне голосовое сообщение с музыкой, которую ты хочешь распознать.")
+    await message.answer(f"<u><b>FAQ</b></u>\nчто я могу:\n  -распознать музыку по гс\n  -найди погоду в любом городе по твоему запросу\n  на клавиатуре РАБОЧАЯ кнопка только ПОГОДА, но это пока что", parse_mode="HTML")
 
 
 async def main():
 
-    dp.callback_query.outer_middleware(WeekendCallbackMiddleware())
+    dp.include_router(getw.router)
     dp.include_router(private_games.router)
     dp.include_router(recognize_song.router)
-    dp.include_router(checkin.router)
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
