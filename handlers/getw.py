@@ -32,6 +32,6 @@ async def find_city(message: Message, state: FSMContext):
     try:
         text = getWeather(message.text.lower())
         await message.answer(text=text)
+        await state.clear()
     except:
-        await message.answer(text="Я не знаю такого города")
-    await state.clear()
+        await message.answer(text="Я не знаю такого города, попробуйте еще раз")
